@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import GhIcon from '../components/gh-icon/GhIcon.vue';
-  import { shorten } from '../utils/request.js';
+  import { shorten } from '../utils/request.ts';
   import { ElMessage, ElMessageBox } from 'element-plus';
   import 'element-plus/es/components/message/style/css';
   import 'element-plus/es/components/message-box/style/css';
@@ -17,7 +17,7 @@
       return;
     }
     isLoading.value = true;
-    const response = await shorten(inputUrl.value ? inputUrl.value : exampleUrl);
+    const response: any = await shorten(inputUrl.value ? inputUrl.value : exampleUrl);
     isLoading.value = false;
 
     if (response && response.status === 200 && response.data && response.data.code === 0) {

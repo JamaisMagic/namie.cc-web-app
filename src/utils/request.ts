@@ -14,12 +14,12 @@ mInstance.interceptors.response.use(config => {
    return config;
 });
 
-function post(url, dataObject) {
+function post(url: string, dataObject: any) {
     return mInstance.post(url, dataObject)
-        .catch(error => ({}))
+        .catch(() => ({}))
 }
 
-export function shorten(longUrl) {
+export function shorten(longUrl: string) {
     return post('/api/shorten/', {
         url: longUrl
     })
@@ -27,5 +27,5 @@ export function shorten(longUrl) {
 
 export function getHostnameWhiteList() {
     return mInstance.get('/api/allowed_hostname/')
-    .catch(error => ({}))
+    .catch(() => ({}))
 }
