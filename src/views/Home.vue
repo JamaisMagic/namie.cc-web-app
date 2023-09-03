@@ -86,11 +86,19 @@
           </el-col>
         </el-row>
 
+        <el-row justify="space-evenly" align="middle">
+          <el-col :span="24">
+            Notice: It's not in production env, so all the data will be deleted at any time.
+          </el-col>
+        </el-row>
+
+        <el-divider />
+
         <el-row justify="space-evenly">
           <el-col :span="24">
             <el-space direction="vertical" fill>
               <el-row justify="space-evenly" align="middle">
-                <el-col>
+                <el-col :span="24">
                   Only 10 links displayed below.
                 </el-col>
               </el-row>
