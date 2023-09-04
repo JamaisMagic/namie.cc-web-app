@@ -16,3 +16,15 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
    1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
    2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
 2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+
+## Misc
+
+For running a node command, try:
+
+```bash
+# For one command
+docker run --rm -it --network webnet node:18.17.1-alpine3.18 node -v
+# Or for multiple commands
+docker run --rm -it --network webnet node:18.17.1-alpine3.18 /bin/sh -c "node -v && npm -v"
+
+```
