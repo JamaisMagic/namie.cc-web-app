@@ -10,7 +10,8 @@
   const exampleUrl = 'https://www.google.com';
   const inputUrl = ref('');
   const isLoading  = ref(false);
-  const shortUrls = ref<Array<string>>([]);
+  const shortUrls = ref<Array<any>>([]);
+  const linkListLength = 10;
 
   const onSubmit = async () => {
     if (isLoading.value) {
@@ -21,8 +22,8 @@
     isLoading.value = false;
 
     if (response && response.status === 200 && response.data && response.data.code === 0) {
-      shortUrls.value.push(response.data.data.url);
-      if (shortUrls.value.length > 10) {
+      shortUrls.value.push(response.data.data);
+      if (shortUrls.value.length > linkListLength) {
         shortUrls.value.shift();
       }
       ElMessage({
@@ -73,46 +74,64 @@
       </el-header>
 
       <el-main>
-        <el-row justify="space-evenly">
-          <el-col :span="24">
-            <el-form class="" @submit="onSubmit">
-              <el-form-item label="">
-                <el-input v-model="inputUrl" :placeholder="`Example: ${exampleUrl}`" clearable />
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" size="large" :disabled="isLoading" @click.prevent="onSubmit">Submit</el-button>
-              </el-form-item>
-            </el-form>
-          </el-col>
-        </el-row>
+        <div class="main-wrapper">
+          <el-row justify="space-evenly">
+            <el-col :span="24">
+              <el-form label-position="top" @submit="onSubmit">
+                <el-form-item :label="`Paste an url to the input, for example: ${exampleUrl}`">
+                  <el-input v-model="inputUrl" :placeholder="exampleUrl" clearable />
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary" size="large" :disabled="isLoading" @click.prevent="onSubmit">Submit</el-button>
+                </el-form-item>
+              </el-form>
+            </el-col>
+          </el-row>
 
-        <el-row justify="space-evenly" align="middle">
-          <el-col :span="24">
-            Notice: It's not in production env, so all the data will be deleted at any time.
-          </el-col>
-        </el-row>
+          <el-row justify="space-evenly" align="middle">
+            <el-col :span="24">
+              Notice: It's not in production env, all the data will be deleted every day.
+            </el-col>
+          </el-row>
 
-        <el-divider />
+          <el-divider />
 
-        <el-row justify="space-evenly">
-          <el-col :span="24">
-            <el-space direction="vertical" fill>
-              <el-row justify="space-evenly" align="middle">
-                <el-col :span="24">
-                  Only 10 links displayed below.
-                </el-col>
+          <el-row justify="space-evenly">
+            <el-col :span="24">
+              <el-space direction="vertical" fill>
+                <el-row v-if="shortUrls.length > 0" justify="space-evenly" align="middle">
+                  <el-col :span="24">
+                    Only {{ linkListLength }} links displayed below.
+                  </el-col>
+                </el-row>
+              </el-space>
+
+              <el-row justify="space-evenly">
+                <el-table :data="shortUrls" table-layout="fixed" size="large" style="width: 100%">
+                 <el-table-column label="Short url">
+                  <template #default="scope">
+                    <div style="display: flex; align-items: center">
+                      <el-space wrap>
+                        <el-button type="info" size="small" :icon="CopyDocument" circle @click.prevent="onCopyClick(scope.row.url)" />
+                        <el-link :href="scope.row.url" target="_blank" rel="noopener nofollow noreferrer" :title="scope.row.url">{{ scope.row.url }}</el-link>
+                      </el-space>
+                    </div>
+                  </template>
+                 </el-table-column>
+                 <el-table-column label="Original url">
+                  <template #default="scope">
+                    <div style="display: flex; align-items: center">
+                      <el-text size="large" :truncated="true">{{ scope.row.original }}</el-text>
+                    </div>
+                  </template>
+                 </el-table-column>
+
+               </el-table>
               </el-row>
-              <el-row v-for="item in shortUrls" justify="space-evenly" align="middle">
-                <el-col :span="24">
-                  <el-space wrap>
-                    <el-button type="info" size="small" :icon="CopyDocument" circle @click.prevent="onCopyClick(item)" />
-                    <el-link :href="item" target="_blank" rel="noopener nofollow noreferrer">{{ item }}</el-link>
-                  </el-space>
-                </el-col>
-              </el-row>
-            </el-space>
-          </el-col>
-        </el-row>
+
+            </el-col>
+          </el-row>
+        </div>
       </el-main>
     </el-container>
   </div>
@@ -128,5 +147,9 @@
 .gh-wrapper {
   display: flex;
   justify-content: end;
+}
+.main-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
 }
 </style>
