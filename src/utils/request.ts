@@ -1,31 +1,31 @@
-import axios from 'axios';
+import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 
-
-const mInstance = axios.create({
-    baseURL: '/',
-    timeout: 300000
+const mInstance: AxiosInstance = axios.create({
+  baseURL: '/',
+  timeout: 300000,
 });
 
-mInstance.interceptors.request.use(config => {
-   return config;
+mInstance.interceptors.request.use((config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
+  return config;
 });
 
 mInstance.interceptors.response.use(config => {
-   return config;
+  return config;
 });
 
-function post(url: string, dataObject: any) {
-    return mInstance.post(url, dataObject)
-        .catch(() => ({}))
+
+async function post(url: string, dataObject: object) {
+  return await mInstance.post(url, dataObject)
+    .catch((e: AxiosError) => console.error(e));
 }
 
-export function shorten(longUrl: string) {
-    return post('/api/shorten/', {
-        url: longUrl
-    })
+export async function shorten(longUrl: string) {
+  return await post('/api/shorten/', {
+    url: longUrl
+  })
 }
 
-export function getHostnameWhiteList() {
-    return mInstance.get('/api/allowed_hostname/')
-    .catch(() => ({}))
+export async function getHostnameWhiteList() {
+  return mInstance.get('/api/allowed_hostname/')
+    .catch((e: AxiosError) => console.error(e));
 }
