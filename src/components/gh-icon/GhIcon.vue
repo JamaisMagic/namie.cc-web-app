@@ -4,8 +4,8 @@
   </a>
 </template>
 <script setup lang="ts">
-import mghImg120 from "./GitHub-Mark-120px-plus.png";
-import mghImg120Light from "./GitHub-Mark-Light-120px-plus.png";
+import mghImg120 from './GitHub-Mark-120px-plus.png';
+import mghImg120Light from './GitHub-Mark-Light-120px-plus.png';
 
 defineProps({
   size: {
@@ -18,9 +18,9 @@ defineProps({
   },
   title: {
     type: String,
-    default: "Fork me on Github",
+    default: 'Fork me on Github',
   },
 });
 
-const href: string = "https://github.com/JamaisMagic/namie.cc-web-service";
+const href: string = 'https://github.com/JamaisMagic/namie.cc-web-service';
 </script>

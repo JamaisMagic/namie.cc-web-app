@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import GhIcon from "../components/gh-icon/GhIcon.vue";
-import { shorten } from "../utils/request.ts";
-import { ElMessage, ElMessageBox } from "element-plus";
-import "element-plus/es/components/message/style/css";
-import "element-plus/es/components/message-box/style/css";
-import { CopyDocument } from "@element-plus/icons-vue";
+import { ref } from 'vue';
+import GhIcon from '../components/gh-icon/GhIcon.vue';
+import { shorten } from '../utils/request.ts';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import 'element-plus/es/components/message/style/css';
+import 'element-plus/es/components/message-box/style/css';
+import { CopyDocument } from '@element-plus/icons-vue';
 
-const exampleUrl = "https://www.google.com";
-const inputUrl = ref("");
+const exampleUrl = 'https://www.google.com';
+const inputUrl = ref('');
 const isLoading = ref(false);
 const shortUrls = ref<Array<any>>([]);
 const linkListLength = 10;
@@ -35,37 +35,33 @@ const onSubmit = async () => {
         shortUrls.value.shift();
       }
       ElMessage({
-        type: "success",
-        message: "Success.",
+        type: 'success',
+        message: 'Success.',
       });
     } else {
-      ElMessageBox.alert(response.data.msg, "Error", {
-        confirmButtonText: "OK",
+      ElMessageBox.alert(response.data.msg, 'Error', {
+        confirmButtonText: 'OK',
       });
     }
   } else if (response && response.response) {
     ElMessageBox.alert(
       `Response error, please try again later or contact the administrator.(1350756140@qq.com).
   status: ${response.response.status}, data: ${response.response.data}`,
-      "Error",
+      'Error',
       {
-        confirmButtonText: "OK",
+        confirmButtonText: 'OK',
       }
     );
   } else if (response && response.request) {
+    ElMessageBox.alert('Request error, please check your network.', 'Error', {
+      confirmButtonText: 'OK',
+    });
+  } else {
     ElMessageBox.alert(
-      "Request error, please check your network.",
-      "Error",
+      'Unknown error, please try again later or contact the administrator.(1350756140@qq.com)',
+      'Error',
       {
-        confirmButtonText: "OK",
-      }
-    );
-  }  else {
-    ElMessageBox.alert(
-      "Unknown error, please try again later or contact the administrator.(1350756140@qq.com)",
-      "Error",
-      {
-        confirmButtonText: "OK",
+        confirmButtonText: 'OK',
       }
     );
   }
@@ -75,14 +71,14 @@ const onCopyClick = async (url: string) => {
   try {
     await navigator.clipboard.writeText(url);
     ElMessage({
-      type: "success",
-      message: "Copied.",
+      type: 'success',
+      message: 'Copied.',
     });
   } catch (error) {
     console.error(error);
     ElMessage({
-      type: "error",
-      message: "Copy Failed.",
+      type: 'error',
+      message: 'Copy Failed.',
     });
   }
 };
