@@ -1,16 +1,13 @@
 import { createApp } from 'vue';
-import { createRouter, createWebHashHistory} from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
+import 'normalize.css';
 import 'element-plus/theme-chalk/display.css';
 import './style.css';
+import { routes } from './routes.ts';
 import App from './App.vue';
-import Home from './views/Home.vue';
-
-const routes = [
-  { path: '/', component: Home },
-];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
 });
 
