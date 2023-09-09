@@ -43,9 +43,26 @@ const onSubmit = async () => {
         confirmButtonText: "OK",
       });
     }
-  } else {
+  } else if (response && response.response) {
     ElMessageBox.alert(
-      "There is something wrong, please try again later or contact the Administrator.(1350756140@qq.com)",
+      `Response error, please try again later or contact the administrator.(1350756140@qq.com).
+  status: ${response.response.status}, data: ${response.response.data}`,
+      "Error",
+      {
+        confirmButtonText: "OK",
+      }
+    );
+  } else if (response && response.request) {
+    ElMessageBox.alert(
+      "Request error, please check your network.",
+      "Error",
+      {
+        confirmButtonText: "OK",
+      }
+    );
+  }  else {
+    ElMessageBox.alert(
+      "Unknown error, please try again later or contact the administrator.(1350756140@qq.com)",
       "Error",
       {
         confirmButtonText: "OK",

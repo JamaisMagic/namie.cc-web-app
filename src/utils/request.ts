@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
 const mInstance: AxiosInstance = axios.create({
   baseURL: '/',
@@ -15,17 +15,37 @@ mInstance.interceptors.response.use(config => {
 
 
 async function post(url: string, dataObject: object) {
-  return await mInstance.post(url, dataObject)
-    .catch((e: AxiosError) => console.error(e));
+  try {
+    return await mInstance.post(url, dataObject);
+  } catch (error: any) {
+    console.error(error);
+    if (error instanceof AxiosError) {
+      return error;
+    }
+    return null;
+  }
 }
 
 export async function shorten(longUrl: string) {
-  return await post('/api/shorten/', {
-    url: longUrl
-  })
+  try {
+    return await post('/api/shorten/', { url: longUrl });
+  } catch (error: any) {
+    console.error(error);
+    if (error instanceof AxiosError) {
+      return error;
+    }
+    return null;
+  }
 }
 
 export async function getHostnameWhiteList() {
-  return mInstance.get('/api/allowed_hostname/')
-    .catch((e: AxiosError) => console.error(e));
+  try {
+    return mInstance.get('/api/allowed_hostname/')
+  } catch (error: any) {
+    console.error(error);
+    if (error instanceof AxiosError) {
+      return error;
+    }
+    return null;
+  }
 }
