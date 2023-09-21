@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, nextTick } from 'vue';
 import GhIcon from '../components/gh-icon/GhIcon.vue';
 import { shorten } from '../utils/request.ts';
 import { ElMessage, ElMessageBox } from 'element-plus';
@@ -7,6 +7,7 @@ import 'element-plus/es/components/message/style/css';
 import 'element-plus/es/components/message-box/style/css';
 import { CopyDocument } from '@element-plus/icons-vue';
 
+const isSafari = navigator.userAgent.indexOf('Safari') > -1 && navigator.userAgent.indexOf('Chrome') <= -1;
 const exampleUrl = 'https://www.google.com';
 const inputUrl = ref('');
 const isLoading = ref(false);
@@ -31,6 +32,20 @@ const onSubmit = async () => {
   if (response && response.status === 200 && response.data) {
     if (response.data.code === 0) {
       shortUrls.value.push(response.data.data);
+      if (isSafari) {
+        nextTick(() => {
+          const el: any = document.querySelector('.url-table .el-scrollbar__view');
+          if (!el) {
+            return;
+          }
+          const { display }: { display: string } = el.style;
+          el.style.display = 'block';
+          nextTick(() => {
+            el.style.display = display;
+          });
+        });
+      }
+
       if (shortUrls.value.length > linkListLength) {
         shortUrls.value.shift();
       }
@@ -168,6 +183,7 @@ const onCopyClick = async (url: string) => {
               <el-row justify="space-evenly">
                 <el-table
                   :data="shortUrls"
+                  class="url-table"
                   table-layout="fixed"
                   size="large"
                   style="width: 100%"
